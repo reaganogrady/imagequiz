@@ -4,8 +4,9 @@ import {Button, Form, Label, Input, FormControl} from 'react-bootstrap';
 
 function App() {
   return (
-    <Form className="App">
-        <h1> LOGIN </h1>
+    <div className="App">
+    <Form className="login">
+        <h1> LOGIN</h1>
         <Form.Group>
           <Form.Label>Email Address</Form.Label> 
           <Form.Control type="email" placeholder="Email"/>
@@ -18,6 +19,7 @@ function App() {
           Submit
         </Button>
     </Form>
+    </div>
   );
 }
 
