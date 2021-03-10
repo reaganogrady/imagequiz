@@ -1,25 +1,17 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css'
-import {Button, Form, Label, Input, FormControl} from 'react-bootstrap';
+import Home from './home';
+import Login from './login';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-    <Form className="login">
-        <h1> LOGIN</h1>
-        <Form.Group>
-          <Form.Label>Email Address</Form.Label> 
-          <Form.Control type="email" placeholder="Email"/>
-        </Form.Group>
-        <Form.Group>
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-    </Form>
-    </div>
+   <HashRouter>
+      <Switch>
+        <Route exact path ="/" component= { Login } />
+        <Route path="/home" component={ Home } />
+      </Switch>
+   </HashRouter>
   );
 }
 
