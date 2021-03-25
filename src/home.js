@@ -8,7 +8,7 @@ function Home() {
     const history = useHistory();
 
     let onImageClick = () => {
-        history.push('/quiz.js');
+        history.push('/quiz');
     }
 
     const output = [];

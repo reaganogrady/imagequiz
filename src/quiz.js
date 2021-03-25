@@ -11,7 +11,7 @@ function Quiz () {
 
     let onSubmit = () => {
         console.log("change");
-        history.push('/score.js');
+        history.push('/score');
     }
 
     const output = [];
