@@ -40,5 +40,4 @@ function Quiz () {
         </Form>
     );
 }
-
 export default Quiz; 
