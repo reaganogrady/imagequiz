@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import { useHistory } from 'react-router-dom';
-import {Button, Form} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
 
 function Score() {
