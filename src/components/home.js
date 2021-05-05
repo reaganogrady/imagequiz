@@ -1,7 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css'
-import './App.css';
 import {ListGroup} from 'react-bootstrap';
-import flowers from './flowers';
 import { useHistory } from 'react-router';
 
 function Home() {

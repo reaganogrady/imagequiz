@@ -4,23 +4,23 @@ import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 import React from 'react';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import api from './api';
 
-function Question({ index, handleChildClick }) {
-    function clicked(event){
-        handleChildClick(event.target.name);
-    }
-
+function Question(props) {
     var output = [];
+    var index = props.index;
     var choices = quizzes[0][index].choices;
+
     for (var j = 0; j < quizzes[0][index].choices.length; j++) {
         output.push(
                 <Form.Check type={'radio'} label={choices[j]} id={choices[j]} 
-                name={choices[j]} onClick= {clicked} 
+                name={choices[j]} onClick= {props.addChecked(choices[j], index)} 
                 />
         );
     }
     output.push(<br/>);
+    props.newAnswer(quizzes[0][index].answer, index);
 
     return(
         <div>
@@ -31,21 +31,12 @@ function Question({ index, handleChildClick }) {
     );
 }
 
-function calculateScore(answers) {
-    var score = 0;
-    for (let i = 0; i < quizzes[0]; i++){
-        if (quizzes[0][i].answer === answers[i]) {
-            score +=1;
-        }
-    }
-    return score;
-}
-
 function Quiz() {
+    const [answers, setAnswers] = useState([]);
     const [score, setScore] = useState(0);
-    const [finished, setEnd] = useState(false)
+    const [userAnswers, setUserAnswers] = useState([]);
 
-    history = useHistory();
+    const history = useHistory();
 
     let retry = () => {
         history.push('/quiz');
@@ -55,27 +46,41 @@ function Quiz() {
         history.push('/home');
     }
 
-    let onSubmit = () => {
-        s
-        <Score onRetry = { retry } onHome = { home } />
+    let checkAnswers = () => {
+        var temp = 0;
+        for (let i = 0; i < answers; i++){
+            if (userAnswers === answers[i]) {
+                temp +=1;
+            }
+        }
+        setScore(temp);
     }
 
-    /*
-    let handleClick(i, answer) {
-        console.log(this.state.answer);
-        const answers = this.state.answers.slice();
-        answers[i] = answer;
-        this.setState({answers: answers});
-    }*/
+    let onSubmit = () => {
+        checkAnswers();
+        <Score onRetry = { retry } onHome = { home } userScore = {score} />
+    }
+
+    let addAnswer = (answer, queNum) => {
+        var newAnswers = answers.slice();
+        newAnswers[queNum] = answer;
+        setAnswers(newAnswers);
+    }
+
+    let addChecked = (answer, queNum) => {
+        var newUserAnswers =  userAnswers.slice();
+        newUserAnswers[queNum] = answer;
+        setUserAnswers(newUserAnswers);
+    }
     
     return (
         <Form onSubmit={this.onSubmit}>
-            <Question index={0} onClick = { checkAsnswer } />     
-            <Question index={1} onClick = { checkAsnswer } />
-            <Question index={2} onClick = { checkAsnswer } />
-            <Question index={3} onClick = { checkAsnswer } />
-            <Question index={4} onClick = { checkAsnswer } />
-            <Question index={5} onClick = { checkAsnswer } />
+            <Question index={0} onClick = { addChecked } newAnswer = {addAnswer} />     
+            <Question index={1} onClick = { addChecked } newAnswer = {addAnswer} />
+            <Question index={2} onClick = { addChecked } newAnswer = {addAnswer} />
+            <Question index={3} onClick = { addChecked } newAnswer = {addAnswer} />
+            <Question index={4} onClick = { addChecked } newAnswer = {addAnswer} />
+            <Question index={5} onClick = { addChecked } newAnswer = {addAnswer} />
             <Button variant="primary" type = "submit" onSubmit = { onSubmit }> Submit </Button>
         </Form>
     );
