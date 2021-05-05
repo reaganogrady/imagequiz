@@ -4,31 +4,33 @@ import { useHistory } from 'react-router';
 import api from '../comms/api';
 import { useState, useEffect } from 'react';
 
-function Home() {
+function Home(props) {
     const history = useHistory();
     const [flowers, setFlowers] = useState([]);
 
-    let onImageClick = () => {
-        history.push('/quiz');
-    }
-
     useEffect(() => {
-        //Followed from lecture
         if (flowers.length === 0) {
             api.getFlowers().then(x => setFlowers(x)).catch(e => console.log(e));
         }
     });
 
+    let setQuiz = (event) => {
+        props.gotoQuiz(event.target.id);
+        history.push('/quiz');
+    }
+
     const output = [];
     for (var i = 0; i < flowers.length; i++) {
-        output.push(<ListGroup.Item><img src={flowers[i].picture} 
-            onClick={onImageClick} alt={flowers[i].name}></img>
-            <p>{flowers[i].name}</p></ListGroup.Item>)
+        output.push(
+            <ListGroup.Item>
+                <img src={flowers[i].picture} id={i} onClick={setQuiz} alt={flowers[i].name}></img>
+                <p> {flowers[i].name} </p>
+            </ListGroup.Item>
+        );
     }
 
     return(
         <ListGroup>
-            <h1>broken>?</h1>
             {output}
        </ListGroup>
     );
