@@ -3,15 +3,13 @@ import Score from './score';
 import Question from './question';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import api from '../comms/api';
 
 function Quiz(props) {
     const [answers, setAnswers] = useState([]);
     const [score, setScore] = useState(0);
     const [userAnswers, setUserAnswers] = useState([]);
-    const [quizzes, setQuizzes] = useState([]);
 
     const history = useHistory();
 
@@ -51,17 +49,9 @@ function Quiz(props) {
         setUserAnswers(newUserAnswers);
     }
 
-    useEffect(() => {
-        if (quizzes.length === 0) {
-            api.getQuizzes()
-            .then(x => setQuizzes(x[0]))
-            .catch(e => console.log(e));
-        }
-    });
-
     return (
         <Form onSubmit={onSubmit}>
-            <Question quizID={props.quizID} queNum={0} clicked = { addChecked } newAnswer = {addAnswer} />     
+            <Question quizID={props.quizID} queNum={0} clicked = { addChecked } newAnswer = {addAnswer} />   
             <Question quizID={props.quizID} queNum={1} clicked = { addChecked } newAnswer = {addAnswer} />
             <Question quizID={props.quizID} queNum={2} clicked = { addChecked } newAnswer = {addAnswer} />
             <Question quizID={props.quizID} queNum={3} clicked = { addChecked } newAnswer = {addAnswer}/>
