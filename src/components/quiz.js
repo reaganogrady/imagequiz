@@ -1,13 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import Score from './score';
 import { Form } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button'
-import React from 'react';
-import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import api from './api';
+import api from '../comms/api';
 
 function Question(props) {
+    const [quizzes, setQuizzes] = useState([]);
+
     var output = [];
     var index = props.index;
     var choices = quizzes[0][index].choices;
@@ -21,6 +22,13 @@ function Question(props) {
     }
     output.push(<br/>);
     props.newAnswer(quizzes[0][index].answer, index);
+
+    useEffect(() => {
+        //Followed from lecture
+        if (quizzes.length === 0) {
+            api.getQuizzes().then(x => setQuizzes(x)).catch(e => console.log(e));
+        }
+    });
 
     return(
         <div>

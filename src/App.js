@@ -4,21 +4,23 @@ import Home from './components/home.js';
 import Login from './components/login';
 import Quiz from './components/quiz';
 import Score from './components/score';
-import NaviBar from './components/navbar';
+import NavigationBar from './components/navibar';
 import { useState } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
+import  Container from 'react-bootstrap/Container'
 
 function App() {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(localStorage.getItem('user') || '');
 
-  let onLoggedIn = (user) => {
-    setUser(user);
+  let onLoggedIn = (username) => {
+    localStorage.setItem('user', username);
+    setUser(username);
   }
 
   return (
    <HashRouter>
      <Container fluid>
-      <NaviBar user = {user}/>
+      
       <Switch>
         <Route exact path="/" component={ Home } />
         <Route path="/quiz" component={ Quiz } />

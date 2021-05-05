@@ -1,19 +1,20 @@
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavBar from 'react-bootstrap/NavBar';
-import Link from "react-router-dom";
+import {Link} from "react-router-dom";
 
-function NaviBar() {
+function NaviBar(props) {
+    var test = 0;
     return(
-        <NavBar>
-            <NavBar.Brand>Image Quiz</NavBar.Brand>
+        /*<Navbar bg ="dark">
+            <Navbar.Brand>Image Quiz</Navbar.Brand>
             <Nav className ="mr-auto">
                 <Nav.Link>
                     <Link to="/">Home</Link>
                 </Nav.Link>
                 <Nav.Link>
                     {
-                        props.user === '' ?
+                        test === 0 ?
                         <Link to="/login">Login</Link>
                         :
                         <Link to="/logout">Logout</Link>
@@ -21,7 +22,8 @@ function NaviBar() {
                     
                 </Nav.Link>
             </Nav>
-        </NavBar>
+        </Navbar>*/
+        <h1>broken</h1>
     );
 }
 
