@@ -1,50 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import Score from './score';
+import Question from './question';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../comms/api';
 
-function Question(props) {
-    const [quizzes, setQuizzes] = useState([]);
-
-    var output = [];
-    var index = props.index;
-    var choices = quizzes[0][index].choices;
-
-    for (var j = 0; j < quizzes[0][index].choices.length; j++) {
-        output.push(
-                <Form.Check type={'radio'} label={choices[j]} id={choices[j]} 
-                name={choices[j]} onClick= {props.addChecked(choices[j], index)} 
-                />
-        );
-    }
-    output.push(<br/>);
-    props.newAnswer(quizzes[0][index].answer, index);
-
-    useEffect(() => {
-        //Followed from lecture
-        if (quizzes.length === 0) {
-            api.getQuizzes().then(x => setQuizzes(x)).catch(e => console.log(e));
-        }
-    });
-
-    return(
-        <div>
-        <h2> Question {index+1}</h2> 
-        <img src = {quizzes[0][index].picture} alt={"Question"}></img> 
-        {output}
-        </div>
-    );
-}
-
-function Quiz() {
+function Quiz(props) {
     const [answers, setAnswers] = useState([]);
     const [score, setScore] = useState(0);
     const [userAnswers, setUserAnswers] = useState([]);
+    const [quizzes, setQuizzes] = useState([]);
 
     const history = useHistory();
+
 
     let retry = () => {
         history.push('/quiz');
@@ -80,16 +50,24 @@ function Quiz() {
         newUserAnswers[queNum] = answer;
         setUserAnswers(newUserAnswers);
     }
-    
+
+    useEffect(() => {
+        if (quizzes.length === 0) {
+            api.getQuizzes()
+            .then(x => setQuizzes(x[0]))
+            .catch(e => console.log(e));
+        }
+    });
+
     return (
-        <Form onSubmit={this.onSubmit}>
-            <Question index={0} onClick = { addChecked } newAnswer = {addAnswer} />     
-            <Question index={1} onClick = { addChecked } newAnswer = {addAnswer} />
-            <Question index={2} onClick = { addChecked } newAnswer = {addAnswer} />
-            <Question index={3} onClick = { addChecked } newAnswer = {addAnswer} />
-            <Question index={4} onClick = { addChecked } newAnswer = {addAnswer} />
-            <Question index={5} onClick = { addChecked } newAnswer = {addAnswer} />
-            <Button variant="primary" type = "submit" onSubmit = { onSubmit }> Submit </Button>
+        <Form onSubmit={onSubmit}>
+            <Question quizID={props.quizID} queNum={0} clicked = { addChecked } newAnswer = {addAnswer} />     
+            <Question quizID={props.quizID} queNum={1} clicked = { addChecked } newAnswer = {addAnswer} />
+            <Question quizID={props.quizID} queNum={2} clicked = { addChecked } newAnswer = {addAnswer} />
+            <Question quizID={props.quizID} queNum={3} clicked = { addChecked } newAnswer = {addAnswer}/>
+            <Question quizID={props.quizID} queNum={4} clicked = { addChecked } newAnswer = {addAnswer} />
+            <Question quizID={props.quizID} queNum={5} clicked = { addChecked } newAnswer = {addAnswer} />
+        <Button variant="primary" type = "submit" onSubmit = { onSubmit }> Submit </Button>
         </Form>
     );
 
